@@ -1,7 +1,8 @@
 export interface User {
-        firstName:string,
-        lastName:string,
-        acceptedTerms:boolean,
-        email:string
-    }
+    name: string, 
+    age: number,
+    favoriteColor: string,
+    interests: string,
+    additionalInfo: string
+}
 

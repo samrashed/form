@@ -1,72 +1,97 @@
-{{counter}}
+<h1> Profile Editor</h1>
 
-<p> The current counter is at : {{counter}}</p>
+<div *ngIf="displayEdit" class="form-style-5">
+<!-- For Display, we don't need ngModel (it's two way binding)
+     Putting ngModel here will allow to edit value. So avoid using ngModel here-->
 
-<button (click)="incrementCounter()"> Click Me </button>
-
-<button (click)="decrementCounter()"> Click Me to decrease </button>
-<!-- Click event added in button-->
-
-<table>
-    <thead>
-        <tr>
-            <th>Name</th>
-        </tr>
-    </thead>
-  <tbody>
-        <tr *ngFor="let name of names">
-        <td>{{name}}</td>
-        </tr> 
-  </tbody>
-</table>
-
-<!-- use  ctrl + K + C == to comment out multiple row  -->
-<!-- use  ctrl + K + U == to uncomment multiple row  -->
-<!--   Form module is used so to use ngSubmit -->
-
-<form (ngSubmit)="addName()">
-    <label for="name">What is your name</label>
-    <input name="name" id="name" [(ngModel)] ="newName">
-    <button type="submit">Submit</button>
-</form>
-
-
-<form (ngSubmit)="changeName()">
-    <label for="name">Enter a name!</label>
-    <input name="name" id="name" [(ngModel)]="newName">
-    <button type="submit">Add name</button>
+  <form>
+    <fieldset>
+        <h2><span>{{title}}</span></h2>
+        <p>      
+          <label for="name">Name :  {{user.name}} </label>
+        </p>
+   
+        <br>
+        <p>    
+          <label for="name">age : {{user.age}} </label>
+        </p>
+        
+        <br>
+        <p>                       
+          <label for="name">Favorite Color : {{user.favoriteColor}} </label>
+        </p>
+        
+        <br>
+        <p> 
+          <label for="job">Interests : {{user.interests}}</label>
+        </p>
+          
+        <br>
+        <p>
+          <label for="Info">Additional Info : {{user.additionalInfo}}</label>
+        </p>
+    </fieldset>
   </form>
-  
+
+</div>
 
   
-  <!--Form with validation-->
-  <!--minlength, maxlength, required, email, pattern-->
-  <form #userForm="ngForm" (ngSubmit)="submitForm()">
-    <p>
-      <label for="firstname">First Name </label>
-      <input #firstName="ngModel" type="text" id="firstname" name="firstname" required minlength="1" [(ngModel)]="user.firstName">
-    </p>
-    <div *ngIf="!firstName?.valid && (firstName?.dirty || firstName?.touched)" class="error">
-      <div *ngIf="firstName.errors?.['required']">
-        First Name is required
-      </div>
-      <div *ngIf="firstName.errors?.['minlength']">
-        First Name Minimum Length is {{firstName.errors?.['minlength'].requiredLength}}
-      </div>
-    </div>
-    <p>
-      <label for="lastname">Last Name </label>
-      <input type="text" id="lastname" name="lastname" required maxlength="15" pattern="^[a-zA-Z]+$" [(ngModel)]="user.lastName">
-    </p>
-    <p>
-      <label for="email">Email </label>
-      <input type="text" id="email" name="email" required email [(ngModel)]="user.email">
-    </p>
-    <p>
-      <label for="acceptedTerms">Accept TOC</label>
-      <input type="checkbox" id="acceptedTerms" name="acceptedTerms" [(ngModel)]="user.acceptedTerms">
-    </p>
-    <p>
-      <button type="submit" [disabled]="!userForm.valid">Submit</button>
-    </p>
+<div *ngIf="!displayEdit" class="form-style-5">
+ 
+  <form #profileForm = "ngForm" (ngSubmit) = "saveChanges(profileForm)">
+ 
+<!--  Use ngModel here so it allows editing of those values-->    
+      <fieldset>
+          <h2><span>{{title}}</span></h2>
+        
+          <label for="name">Name:</label>
+          <input class="marginName" type="text" name="name" id="name" [(ngModel)] = "user.name" >
+
+        <br><br>
+          <label for="age">Age:</label>
+          <input class="marginAge" type="text" name="age" id="age" [(ngModel)] = "user.age" >
+
+        <br><br>  
+          <label for="favoriteColor">Favorite Color:</label>
+          <input class="marginColor" type="text" name="favoriteColor" id="favoriteColor" [(ngModel)] = "user.favoriteColor" >
+        
+        <br><br>
+          <label for="job">Interests:</label>
+          <select class="marginInterest" id="job" name="job" [(ngModel)] = "user.interests">
+            <optgroup label="Indoors">
+                <option value="Reading">Reading</option>
+                <option value="Swimming">Swimming</option>
+                <option value="Boxing">Boxing</option>
+                <option value="Debate">Debate</option>
+                <option value="Gaming">Chess</option>
+                <option value="Snooker">Snooker</option>
+                <option value="Table Tennis">Table Tennis</option>
+                <option value="Lone Tennis">Lone Tennis</option>
+            </optgroup>
+            <optgroup label="Outdoors">
+                <option value="Football">Football</option>
+                <option value="Fishing">Fishing</option>
+                <option value="Fishing">Cricket</option>
+                <option value="Climbing">Baseball</option>
+                <option value="Cycling">Cycling</option>
+            </optgroup>
+          </select>      
+
+          <br><br>
+          
+          <label for="Info">Additional Info :</label>
+          <input class="marginInfo" name="additionalInfo" id="additionalInfo" [(ngModel)]="user.additionalInfo" placeholder="About Your School">
+       
+        </fieldset>
+      <br>
+    <button  class="marginButton" style="height:30px;width:200px" type="submit" >Submit</button>
+
   </form>
+
+    <br>
+
+</div>
+<br>
+<div  class="form-style-5">
+  <input class="marginButton" style="height:30px;width:200px" type="submit" (click)="toggleEdit()" value="Toggle Edit">
+</div>

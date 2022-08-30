@@ -1,6 +1,8 @@
-import { Component, ViewChild } from '@angular/core';
-import { NgForm } from '@angular/forms';
+import { Component } from '@angular/core';
+
 import { User } from './interfaces/user';
+
+import { NgForm } from '@angular/forms';
 
 @Component({
   selector: 'app-root',
@@ -8,44 +10,32 @@ import { User } from './interfaces/user';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  counter: number = 0;
+  title = 'User Information';
 
-  incrementCounter():void {
-    this.counter +=1;
+  // action: string = '';
+
+  displayEdit: boolean = false;
+
+  profileForm: NgForm | undefined;
+
+  toggleEdit(): void {
+    this.displayEdit = !this.displayEdit;
+    if(!this.displayEdit)
+      this.title = "Update User Information"
+    if(this.displayEdit)
+      this.title = "User Information"
   }
 
-  decrementCounter():void {
-    this.counter -=1;
+  saveChanges(form: NgForm): void {
+    console.log(this.profileForm?.value)
   }
 
-names:string[] = ['George', 'Kyla', 'Julie'];
-
-newName:string ='';
-
-  addName():void {
-    this.names.push(this.newName);
-  }
-
-
-  title = 'TemplateDrivenForm';
-  user:User = {
-    firstName: '',
-    lastName: '',
-    acceptedTerms: false,
-    email:''
-  }
-
-
-  @ViewChild('userForm') userForm: NgForm | undefined;
-
-  changeName(){
-    this.names.push(this.newName);
-  }
-
-  submitForm() : void {
-    if(this.userForm !== undefined){
-      console.log(this.userForm.value);
-    }
+  user: User = {
+    name: "Sam Rashed",
+    age: 42,
+    favoriteColor: 'Red',
+    interests: 'Chess',
+    additionalInfo: 'Hobbies'
   }
 
 }
